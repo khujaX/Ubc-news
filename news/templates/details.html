@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Details Page
+{% endblock %}
+
+{% block content %}
+    <h1>News details</h1>
+
+    <h3>{{ news.title }}</h3>
+    <p>{{ news.content }}</p>
+    <br><br>
+    <p>{{ news.published_date }}</p>
+    <p>{{ news.updated_date }}</p>
+    <img src="{{ news.media.url }}" style="width:400px; height:300px">
+    
+{% endblock %}

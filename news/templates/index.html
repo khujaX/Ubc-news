@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Main Page
+{% endblock %}
+
+{% block content %}
+    {% for news in all_news %}
+        <p>{{ news.id }} | {{ news.title }} | {{ news.published_date }}</p>
+        <p>------------------------------------------------------------</p>
+    {% endfor %}
+    
+{% endblock %}

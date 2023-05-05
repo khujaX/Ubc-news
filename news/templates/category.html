@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Category Page
+{% endblock %}
+
+{% block content %}
+    {% for news in news_list %}
+        <h3>{{ news.title }}</h3>
+        <p>{{ news.content }}</p>
+        <br><br>
+        <p>{{ news.published_date }}</p>
+        <p>{{ news.updated_date }}</p>
+        <img src="{{ news.media.url }}" style="width:400px; height:300px">
+        <p>----------------------------------------------------------------</p>
+    {% endfor %}
+    
+{% endblock %}
