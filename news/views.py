@@ -10,7 +10,7 @@ def main(request):
         'all_news': all_news
     }
 
-    return render(request, 'index.html', context=context)
+    return render(request, 'news/index.html', context=context)
 
 
 def details(request, news_id):
@@ -20,7 +20,7 @@ def details(request, news_id):
         'news': news
     }
 
-    return render(request, 'details.html', context=news_data)
+    return render(request, 'news/details.html', context=news_data)
 
 
 def category(request, category_id):
@@ -30,4 +30,4 @@ def category(request, category_id):
         'news_list': news_list
     }
 
-    return render(request, 'category.html', context=data)
+    return render(request, 'news/category.html', context=data)

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "news/base.html" %}
 
 {% block title %}
     Category Page
@@ -6,7 +6,7 @@
 
 {% block content %}
     {% for news in news_list %}
-        <h3>{{ news.title }}</h3>
+        <a href="{% url 'details' news.id %}"><h3>{{ news.title }}</h3></a>
         <p>{{ news.content }}</p>
         <br><br>
         <p>{{ news.published_date }}</p>
