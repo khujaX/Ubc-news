@@ -1,0 +1,26 @@
+{% extends "news/base.html" %}
+
+{% block title %}
+    Login Page
+{% endblock %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} Success: {% endif %}
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST" novalidate>
+        {% csrf_token %}
+        <h2>Login</h2>
+        {{form.as_p}}
+        <input type="submit" value="Login" />
+    </form>
+
+{% endblock %}

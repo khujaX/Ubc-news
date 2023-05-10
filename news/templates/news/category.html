@@ -7,7 +7,7 @@
 {% block content %}
     {% for news in news_list %}
         <a href="{% url 'details' news.id %}"><h3>{{ news.title }}</h3></a>
-        <p>{{ news.content }}</p>
+        <p>{{ news.content|truncatewords:30 }}</p>
         <br><br>
         <p>{{ news.published_date }}</p>
         <p>{{ news.updated_date }}</p>
