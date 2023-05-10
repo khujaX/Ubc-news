@@ -6,10 +6,6 @@
 
 {% block content %}
 
-    {% if user.is_authenticated %}
-        <p>Welcome {{ user.username }} !!!</p>       
-    {% endif %}
-
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}

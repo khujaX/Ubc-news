@@ -1,0 +1,20 @@
+{% extends 'news/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="register-container" style="width: 500px; margin: 0 auto;">
+	<form method="POST" novalidate>
+		{% csrf_token %}
+		<h2>Sign Up</h2>
+
+		<!-- {% crispy form %} -->
+		{{ form|crispy }}
+			
+		<input type="submit" value="Register" />
+	
+		<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+	  
+	</form>
+</div>
+
+{% endblock content%}
