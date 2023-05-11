@@ -92,7 +92,7 @@ def register(request):
             user.username = user.username.lower()
             user.save()
             messages.success(request, 'You have singed up successfully.')
-            login(request, user)
-            return redirect('posts')
+            auth_login(request, user)
+            return redirect('main')
         else:
             return render(request, 'news/register.html', {'form': form})
