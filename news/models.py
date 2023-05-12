@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -7,8 +8,8 @@ class Category(models.Model):
     title = models.CharField(max_length=30)
 
     def __str__(self) -> str:
-        return self.title
-    
+        return f'{self.title}'
+
     class Meta:
         verbose_name = 'category'
         verbose_name_plural = 'categories'
@@ -16,6 +17,7 @@ class Category(models.Model):
 
 
 class News(models.Model):
+    publisher = models.ForeignKey(User, related_name='publisher', on_delete=models.CASCADE)
     title = models.CharField(max_length=30)
     content = models.TextField()
     published_date = models.DateTimeField(auto_now_add=True)

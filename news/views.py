@@ -5,7 +5,7 @@ from .models import News, Category
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm,  NewsAddForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 
@@ -96,3 +96,22 @@ def register(request):
             return redirect('main')
         else:
             return render(request, 'news/register.html', {'form': form})
+
+
+@login_required
+def add_news(request):
+    if request.method == 'GET':
+        form = NewsAddForm()
+        return render(request, 'news/news_add.html', {'form': form})
+
+    if request.method == 'POST':
+        form = NewsAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            news = form.save(commit=False)
+            news.publisher = request.user
+            news.save()
+            messages.success(request, 'You have singed up successfully.')
+            return redirect('main')
+        else:
+            messages.error(request, 'Something went wrong')
+            return render(request, 'news/news_add.html', {'form': form})
