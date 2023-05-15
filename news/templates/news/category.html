@@ -5,14 +5,23 @@
 {% endblock %}
 
 {% block content %}
-    {% for news in news_list %}
-        <a href="{% url 'details' news.id %}"><h3>{{ news.title }}</h3></a>
-        <p>{{ news.content|truncatewords:30 }}</p>
-        <br><br>
-        <p>{{ news.published_date }}</p>
-        <p>{{ news.updated_date }}</p>
-        <img src="{{ news.media.url }}" style="width:400px; height:300px">
-        <p>----------------------------------------------------------------</p>
-    {% endfor %}
+    <div class="row mb-2">
+        {% for news in page_obj.object_list %}
+            <div class="col-md-6">
+              <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                  <strong class="d-inline-block mb-2 text-primary">{{ news.category }}</strong>
+                  <h3 class="mb-0">{{ news.title }}</h3>
+                  <div class="mb-1 text-body-secondary">{{ news.published_date }}</div>
+                  <p class="card-text mb-auto">{{ news.content|truncatewords:30 }}</p>
+                  <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="{{ news.media.url }}" width="300px" height="250px">
+                </div>
+              </div>
+            </div>
+       {% endfor %}
+    </div>
     
 {% endblock %}
