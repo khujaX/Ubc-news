@@ -18,7 +18,7 @@ def main(request):
     else:
         all_news = News.objects.all()
 
-    paginator = Paginator(all_news, 5)
+    paginator = Paginator(all_news, 6)
     page_num = request.GET.get('page', 1)
     page_objects = paginator.get_page(page_num)
 
