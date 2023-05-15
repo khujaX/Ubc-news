@@ -1,0 +1,10 @@
+{% extends 'news/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>Profile Page</h1>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+{% endblock %}

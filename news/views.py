@@ -123,3 +123,28 @@ def add_news(request):
         else:
             messages.error(request, 'Something went wrong')
             return render(request, 'news/news_add.html', {'form': form})
+
+@login_required
+def profile(request):
+    return render(request, 'news/profile.html')
+
+
+def my_news(request):
+
+    searched = request.GET.get('search_word')
+    if searched:
+        all_news = News.objects.filter(publisher=request.user, title__contains=searched)
+    else:
+        all_news = News.objects.filter(publisher=request.user)
+
+    paginator = Paginator(all_news, 6)
+    page_num = request.GET.get('page', 1)
+    page_objects = paginator.get_page(page_num)
+
+    context = {
+        'all_news': all_news,
+        'page_obj': page_objects
+    }
+
+    return render(request, 'news/index.html', context=context)
+

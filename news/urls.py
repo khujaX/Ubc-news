@@ -11,7 +11,9 @@ urlpatterns = [
     path('login/', login, name='login'),
     path('logout/', logout, name='logout'),
     path('register/', register, name='register'),
-    path('add-news/', add_news, name='add_news')
+    path('add-news/', add_news, name='add_news'),
+    path('profile/', profile, name='profile'),
+    path('my_news/', my_news, name='my_news'),
 ]
 
 
