@@ -148,3 +148,19 @@ def my_news(request):
 
     return render(request, 'news/index.html', context=context)
 
+
+def news_update(request, pk):
+    news = News.objects.get(id=pk)
+    form = NewsAddForm(instance=news)
+    if request.method == "POST":
+        form = NewsAddForm(request.POST, instance=news)
+        if form.is_valid:
+            form.save()
+            return redirect('main')
+
+    context = {
+        "form" : form
+    }
+
+    return render(request, "news/news_add.html", context)
+

@@ -14,6 +14,7 @@ urlpatterns = [
     path('add-news/', add_news, name='add_news'),
     path('profile/', profile, name='profile'),
     path('my_news/', my_news, name='my_news'),
+    path('news-update/<int:pk>', news_update, name='news-update')
 ]
 
 

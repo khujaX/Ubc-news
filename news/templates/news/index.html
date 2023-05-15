@@ -34,6 +34,7 @@
                   <div class="mb-1 text-body-secondary">{{ news.published_date }}</div>
                   <div class="mb-1 text-body-secondary">{{ news.publisher.first_name }} {{ news.publisher.last_name }}</div>
                   <a href="#" class="stretched-link">Continue reading</a>
+                  <a href="{% url 'news-update' news.id %}" class="stretched-link">Update news</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
                     <img src="{{ news.media.url }}" width="300px" height="250px">

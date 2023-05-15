@@ -2,7 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-    Add News Page
+    {% if request.path == '/add-news/'%}
+        Add News Page
+    {% else %}
+        Update News Page
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -25,12 +29,21 @@
             </ul>
         {% endif %}
 
+
         <form method="POST" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
-            <h2>Add News</h2>
+            {% if request.path == '/add-news/'%}
+                <h2>Add News</h2>
+                {{ form|crispy }}
+                <input type="submit" value="Add News" />
+            {% else %}
+                <h2>Update News</h2>
+                 {{ form|crispy }}
+                <input type="submit" value="Update News" />
+            {% endif %}
+
             <!-- {% crispy form %} -->
-            {{ form|crispy }}
-            <input type="submit" value="Add News" />
+
         </form>
     </div>
 
