@@ -151,25 +151,33 @@ def my_news(request):
 
 def news_update(request, pk):
     news = News.objects.get(id=pk)
-    form = NewsAddForm(instance=news)
-    if request.method == "POST":
-        form = NewsAddForm(request.POST, instance=news)
-        if form.is_valid:
-            form.save()
-            return redirect('main')
+    if request.user.id == news.publisher.id:
 
-    context = {
-        "form": form
-    }
+        form = NewsAddForm(instance=news)
+        if request.method == "POST":
+            form = NewsAddForm(request.POST, instance=news)
+            if form.is_valid:
+                form.save()
+                return redirect('main')
+
+        context = {
+            "form": form
+        }
+    else:
+        return redirect('main')
 
     return render(request, "news/news_add.html", context)
 
 
 def profiles(request):
-    all_profiles = User.objects.all()
+    searched = request.GET.get('search_word')
+    if searched:
+        all_profiles = User.objects.filter(username__contains=searched)
+    else:
+        all_profiles = User.objects.filter()
 
     data = {
-        'all_profiles': all_profiles
+        'all_profiles': all_profiles,
     }
 
     return render(request, 'news/profiles.html', context=data)
@@ -188,7 +196,7 @@ def profile(request, profile_id):
 
 
     context = {
-        'all_news': all_news,
+        'user': user,
         'page_obj': page_objects,
     }
 

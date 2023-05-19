@@ -3,6 +3,30 @@
 {% load static %}
 
 {% block content %}
+    {% if user.id == request.user.id %}
+    <div class="col-auto d-none d-lg-block">
+        {% if user.avatar %}
+        <img src="{{ request.user.avatar.url }}" width="300px" height="250px">
+        {% else %}
+        <img src="{% static 'news/images/avatar.jpg' %}" width="300px" height="250px">
+        {% endif %}
+    </div>
+    <h1>Profile Page</h1>
+    <p>First name: {{ request.user.first_name }}</p>
+    <p>Last name: {{ request.user.last_name }}</p>
+    <p>Username: {{ request.user.username }}</p>
+    <p>Email: {{ request.user.email }}</p>
+
+    <div>
+        <a href="{% url 'update_info' %}">Update profile Info</a>
+    </div>
+    <div>
+        <a href="{% url 'update_image' %}">Update profile Image</a>
+    </div>
+    <div>
+        <a href="{% url 'update_image' %}">Update profile Password</a>
+    </div>
+    {% else %}
     <div class="col-auto d-none d-lg-block">
         {% if user.avatar %}
         <img src="{{ user.avatar.url }}" width="300px" height="250px">
@@ -15,16 +39,6 @@
     <p>Last name: {{ user.last_name }}</p>
     <p>Username: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
-    {% if user.id == request.user.id %}
-    <div>
-        <a href="{% url 'update_info' %}">Update profile Info</a>
-    </div>
-    <div>
-        <a href="{% url 'update_image' %}">Update profile Image</a>
-    </div>
-    <div>
-        <a href="{% url 'update_image' %}">Update profile Password</a>
-    </div>
     {% endif %}
 
     <h1 style="margin-top: 30px;">Published news</h1>
