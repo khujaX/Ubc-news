@@ -31,13 +31,19 @@
                 <div class="col p-4 d-flex flex-column position-static">
                   <strong class="d-inline-block mb-2 text-primary">{{ news.category }}</strong>
                   <h3 class="mb-0">{{ news.title }}</h3>
-                  <div class="mb-1 text-body-secondary">{{ news.published_date }}</div>
-                  <div class="mb-1 text-body-secondary">{{ news.publisher.first_name }} {{ news.publisher.last_name }}</div>
-                  <a href="#" class="stretched-link">Continue reading</a>
-                  <a href="{% url 'news-update' news.id %}" class="stretched-link">Update news</a>
+                  <div class="mb-1 text-body-secondary" style="margin-top: 10px">Reporter: {{ news.publisher.first_name }} {{ news.publisher.last_name }}</div>
+                  {% if request.user.id == news.publisher.id %}
+                    <a href="{% url 'about_news' news.id %}">Continue reading</a>
+                    <a href="{% url 'news-update' news.id %}">Update news</a>
+                    {% else %}
+                    <a href="{% url 'about_news' news.id %}" class="stretched-link" style="margin-bottom: 24px">Continue reading</a>
+                    {% endif %}
+                    <div class="mb-1 text-body-secondary" style="margin-top: 20px">{{ news.published_date }}</div>
+<!--                    <p style="font-size: 13px; margin-top: 20px">{{ news.published_date }}</p>-->
                 </div>
+
                 <div class="col-auto d-none d-lg-block">
-                    <img src="{{ news.media.url }}" width="300px" height="250px">
+                    <img src="{{ news.media.url }}" width="330px" height="280px">
                 </div>
               </div>
             </div>

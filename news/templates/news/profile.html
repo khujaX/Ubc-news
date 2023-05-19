@@ -1,10 +1,59 @@
 {% extends 'news/base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 {% block content %}
+    <div class="col-auto d-none d-lg-block">
+        {% if user.avatar %}
+        <img src="{{ user.avatar.url }}" width="300px" height="250px">
+        {% else %}
+        <img src="{% static 'news/images/avatar.jpg' %}" width="300px" height="250px">
+        {% endif %}
+    </div>
     <h1>Profile Page</h1>
     <p>First name: {{ user.first_name }}</p>
     <p>Last name: {{ user.last_name }}</p>
     <p>Username: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
+    {% if user.id == request.user.id %}
+    <div>
+        <a href="{% url 'update_info' %}">Update profile Info</a>
+    </div>
+    <div>
+        <a href="{% url 'update_image' %}">Update profile Image</a>
+    </div>
+    <div>
+        <a href="{% url 'update_image' %}">Update profile Password</a>
+    </div>
+    {% endif %}
+
+    <h1 style="margin-top: 30px;">Published news</h1>
+    <div class="row mb-2">
+        {% for news in page_obj.object_list %}
+            <div class="col-md-6">
+              <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                  <strong class="d-inline-block mb-2 text-primary">{{ news.category }}</strong>
+                  <h3 class="mb-0">{{ news.title }}</h3>
+                  <div class="mb-1 text-body-secondary" style="margin-top: 10px">Reporter: {{ news.publisher.first_name }} {{ news.publisher.last_name }}</div>
+                  {% if request.user.id == news.publisher.id %}
+                    <a href="{% url 'about_news' news.id %}" class="stretched-link">Continue reading</a>
+                    <a href="{% url 'news-update' news.id %}" class="stretched-link">Update news</a>
+                    {% else %}
+                    <a href="{% url 'about_news' news.id %}" class="stretched-link" style="margin-bottom: 24px">Continue reading</a>
+                    {% endif %}
+                    <div class="mb-1 text-body-secondary" style="margin-top: 20px">{{ news.published_date }}</div>
+<!--                    <p style="font-size: 13px; margin-top: 20px">{{ news.published_date }}</p>-->
+                </div>
+
+                <div class="col-auto d-none d-lg-block">
+                    <img src="{{ news.media.url }}" width="330px" height="280px">
+                </div>
+              </div>
+            </div>
+
+       {% endfor %}
+
+    </div>
+
 {% endblock %}

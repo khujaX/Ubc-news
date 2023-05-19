@@ -1,0 +1,15 @@
+{% extends 'news/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <div class="col-auto d-none d-lg-block">
+        <img src="{{ news.media.url }}" width="300px" height="250px">
+    </div>
+    <h1>{{ news.title }}</h1>
+    <h2>{{ news.category }}</h2>
+    <p>{{ news.content }}</p>
+    <p>Publisher: {{ news.publisher }}</p>
+    <p>Published date: {{ news.published_date }}</p>
+
+{% endblock %}

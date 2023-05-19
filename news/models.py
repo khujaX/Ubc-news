@@ -1,7 +1,14 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
+
+
+class User(AbstractUser):
+    avatar = models.ImageField(upload_to="ubc-user/%Y/%m/%d/", blank=True)
+
+    class Meta(AbstractUser.Meta):
+        swappable = 'AUTH_USER_MODEL'
 
 
 class Category(models.Model):

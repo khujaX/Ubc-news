@@ -3,16 +3,20 @@
 
 {% block content %}
 <div class="register-container" style="width: 500px; margin: 0 auto;">
-	<form method="POST" novalidate>
+	<form method="POST" enctype="multipart/form-data" novalidate>
 		{% csrf_token %}
-		<h2>Sign Up</h2>
 
-		<!-- {% crispy form %} -->
+		{% if request.path == '/register/' %}
+		<h2>Sign Up</h2>
 		{{ form|crispy }}
-			
 		<input type="submit" value="Register" />
-	
-		<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+
+		{% else %}
+		<h2>Update profile</h2>
+		{{ form|crispy }}
+		<input type="submit" value="Save" />
+
+		{% endif %}
 	  
 	</form>
 </div>

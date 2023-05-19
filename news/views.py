@@ -1,11 +1,11 @@
 from pyexpat.errors import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import News, Category
+from .models import News, Category, User
 from django.core.paginator import Paginator
 from django.contrib import messages
 
-from .forms import LoginForm, RegisterForm,  NewsAddForm
+from .forms import LoginForm, RegisterForm,  NewsAddForm, UpdateUserImageForm, UpdateUserInfoForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 
@@ -71,7 +71,7 @@ def login(request):
             if form.is_valid():
                 username = form.cleaned_data['username']
                 password = form.cleaned_data['password']
-                user = authenticate(request, username=username,password=password)
+                user = authenticate(request, username=username, password=password)
                 if user:
                     auth_login(request, user)
                     messages.success(request, f'Hi {username.title()}, welcome back!')
@@ -124,13 +124,13 @@ def add_news(request):
             messages.error(request, 'Something went wrong')
             return render(request, 'news/news_add.html', {'form': form})
 
-@login_required
-def profile(request):
-    return render(request, 'news/profile.html')
+
+# @login_required
+# def profile(request):
+#     return render(request, 'news/profile.html')
 
 
 def my_news(request):
-
     searched = request.GET.get('search_word')
     if searched:
         all_news = News.objects.filter(publisher=request.user, title__contains=searched)
@@ -159,8 +159,98 @@ def news_update(request, pk):
             return redirect('main')
 
     context = {
-        "form" : form
+        "form": form
     }
 
     return render(request, "news/news_add.html", context)
 
+
+def profiles(request):
+    all_profiles = User.objects.all()
+
+    data = {
+        'all_profiles': all_profiles
+    }
+
+    return render(request, 'news/profiles.html', context=data)
+
+def profile(request, profile_id):
+    user = User.objects.get(id=profile_id)
+    searched = request.GET.get('search_word')
+    if searched:
+        all_news = News.objects.filter(publisher=profile_id, title__contains=searched)
+    else:
+        all_news = News.objects.filter(publisher=profile_id)
+
+    paginator = Paginator(all_news, 6)
+    page_num = request.GET.get('page', 1)
+    page_objects = paginator.get_page(page_num)
+
+
+    context = {
+        'all_news': all_news,
+        'page_obj': page_objects,
+    }
+
+    return render(request, 'news/profile.html', context=context)
+
+
+# def update_profile(request):
+#     user = User.objects.get(id=request.user.id)
+#     form = UpdateUserForm(instance=user)
+#     if request.method == "POST":
+#         form = UpdateUserForm(request.POST, instance=user)
+#         if form.is_valid:
+#             form.save()
+#             return redirect('main')
+#
+#     context = {
+#         "form": form
+#     }
+#
+#     return render(request, "news/update.html", context)
+
+
+def update_info(request):
+    if request.method == 'GET':
+        form = UpdateUserInfoForm(instance=request.user)
+        return render(request, 'news/update.html', {'form': form})
+
+    if request.method == 'POST':
+        form = UpdateUserInfoForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            messages.success(request, 'User information has been updated successfully.')
+            auth_login(request, user)
+            return redirect('main')
+        else:
+            return render(request, 'news/update.html', {'form': form})
+
+
+def update_image(request):
+    if request.method == 'GET':
+        form = UpdateUserImageForm(instance=request.user)
+        return render(request, 'news/update.html', {'form': form})
+
+    if request.method == 'POST':
+        form = UpdateUserImageForm(request.FILES, files=request.FILES, instance=request.user)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            messages.success(request, 'User information has been updated successfully.')
+            auth_login(request, user)
+            return redirect('main')
+        else:
+            return render(request, 'news/update.html', {'form': form})
+
+
+def about_news(request, news_id):
+    news = News.objects.get(id=news_id)
+
+    news_data = {
+        'news': news
+    }
+
+    return render(request, 'news/news.html', context=news_data)

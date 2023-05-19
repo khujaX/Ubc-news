@@ -12,9 +12,13 @@ urlpatterns = [
     path('logout/', logout, name='logout'),
     path('register/', register, name='register'),
     path('add-news/', add_news, name='add_news'),
-    path('profile/', profile, name='profile'),
     path('my_news/', my_news, name='my_news'),
-    path('news-update/<int:pk>', news_update, name='news-update')
+    path('profiles/', profiles, name='profiles'),
+    path('profile/<int:profile_id>', profile, name='profile'),
+    path('update_info', update_info, name='update_info'),
+    path('update_image', update_image, name='update_image'),
+    path('news-update/<int:pk>', news_update, name='news-update'),
+    path('about_news/<int:news_id>', about_news, name='about_news'),
 ]
 
 
